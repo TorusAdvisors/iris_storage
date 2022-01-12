@@ -4,7 +4,7 @@ Library for filling data into Iris (InterSystems)
 
 ### Usage
 
-#### Run docker instance of InterSystems IRIS with library
+#### Run docker instance of InterSystems IRIS with library (https://github.com/TorusAdvisors/iris)
 https://hub.docker.com/repository/docker/torusadvisors/iris
 ```bash
 docker run --rm --name iris -d --publish 1972:1972 --publish 52773:52773 torusadvisors/iris:latest
