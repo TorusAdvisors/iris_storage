@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@torusadvisors/iris_storage": "^1.0.0"
+  }
+}
