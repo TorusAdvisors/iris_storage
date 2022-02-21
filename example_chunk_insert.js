@@ -8,6 +8,18 @@ const IRIS_NS = process.env.IRIS_NS || 'TORUS';
 const IRIS_USER = process.env.IRIS_USER || '_SYSTEM';
 const IRIS_PWD = process.env.IRIS_PWD || 'SYS';
 
+const start_timer = Math.floor(+new Date() / 1000);
+
+let data = [];
+for (let i = 0; i < 30000; i++) {
+    let k = 'key_'+i;
+    let v = 'value_'+i;
+    let item = {'item_key':k, 'item_value':v};
+    data.push(item);
+}
+
+data = JSON.stringify(data);
+
 const storage = new storage_iris({host: IRIS_HOST, port: IRIS_PORT, ns: IRIS_NS, user: IRIS_USER, pwd: IRIS_PWD});
 
 storage.init();
@@ -26,26 +38,18 @@ storage.processor.on('ready', () => {
             let sql = "CREATE TABLE TORUS.Items (\n" +
                 "    item_key VARCHAR(50) NOT NULL,\n" +
                 "    item_value VARCHAR(50) DEFAULT 'Unknown'\n" +
-                ")  WITH %CLASSPARAMETER DEFAULTGLOBAL = '^TORUS.ITEMS';";
+                ")  WITH %CLASSPARAMETER DEFAULTGLOBAL = '^TORUS.ITEMS'";
 
             storage.iris.sql(sql)
                 .then(() => {
                     console.log("Torus.Items created");
                 }).then(() => {
-                    sql = "";
+                    storage.iris.chunk_insert('^TORUS.ITEMS.1', data).then((out) => {
+                        console.log('inserted', out, Math.floor(+new Date() / 1000) - start_timer);
 
-                }).then(() => {
-                    storage.iris.sql("INSERT INTO TORUS.Items (item_key, item_value) VALUES ('key_1', 'value_1')")
-                        .then(() => {
-                            console.log('Insert items');
-                            storage.iris.sql("SELECT * FROM TORUS.Items")
-                                .then(data => {
-                                    console.log('result: ', data);
-                                })
-                        })
+                    }).catch(err => { console.log(err); });
                 })
                 .catch(err => { console.error(err); });
-
         })
         .catch((err) => {
         console.error(err);
