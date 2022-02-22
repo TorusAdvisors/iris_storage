@@ -1,6 +1,6 @@
 {
   "name": "@torusadvisors/iris_storage",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A simple library for filling data into Iris (InterSystems)",
   "main": "storage_iris.js",
   "repository": "torusadvisors/iris_storage",
