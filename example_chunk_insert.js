@@ -11,7 +11,7 @@ const IRIS_PWD = process.env.IRIS_PWD || 'SYS';
 const start_timer = Math.floor(+new Date() / 1000);
 
 let data = [];
-for (let i = 0; i < 100000; i++) {
+for (let i = 0; i < 10; i++) {
     let k = 'key_'+i;
     let v = 'value_'+i;
     let item = {'item_key':k, 'item_value':v};
